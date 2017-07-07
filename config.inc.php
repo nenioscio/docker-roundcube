@@ -95,4 +95,12 @@ $config['htmleditor'] = 2;
 // default setting if preview pane is enabled
 $config['preview_pane'] = true;
 
+// set default domain
+$config['username_domain'] = getenv('USERNAME_DOMAIN');
 
+// set to log to stdout
+$config['log_driver'] = 'stdout';
+$config['debug_level'] = 1;
+
+// activate when required
+// $config['smtp_debug'] = true;
