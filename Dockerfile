@@ -43,7 +43,7 @@ RUN apt-get update && \
     apt-get remove -y augeas-tools && apt-get -y autoremove && rm -rf /var/lib/apt/lists/*
 
 # App Configuration
-# RUN sed -re 's/^.*php_value +error_log.*$/php_value   error_log \/dev\/stderr/' -i  /var/www/html/.htaccess
+RUN . /etc/apache2/envvars && chown -R ${APACHE_RUN_USER}:${APACHE_RUN_GROUP} /var/www/html/temp /var/www/html/logs
 COPY config.inc.php /var/www/html/config/config.inc.php
 
 # Add bootstrap tool
