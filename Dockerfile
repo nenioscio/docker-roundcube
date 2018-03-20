@@ -4,7 +4,7 @@ MAINTAINER Andrew Cutler <macropin@gmail.com>
 
 EXPOSE 80 443
 
-ENV ROUNDCUBE_VERSION 1.3.0
+ENV ROUNDCUBE_VERSION 1.3.4
 
 RUN apt-get update && \
     # Install Requirements
@@ -40,6 +40,8 @@ RUN apt-get update && \
 # App Configuration
 RUN . /etc/apache2/envvars && chown -R ${APACHE_RUN_USER}:${APACHE_RUN_GROUP} /var/www/html/temp /var/www/html/logs
 COPY config.inc.php /var/www/html/config/config.inc.php
+COPY root.htaccess /var/www/html/.htaccess
+COPY public_html.htaccess /var/www/html/public_html/.htaccess
 
 # Add bootstrap tool
 ADD bootstrap.php /
