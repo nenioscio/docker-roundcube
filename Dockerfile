@@ -38,6 +38,14 @@ RUN apt-get update && \
     # Cleanup
     apt-get remove -y git curl && apt-get -y autoremove && rm -rf /var/lib/apt/lists/*
 
+RUN export SSLProtocol=$(augtool match /files/etc/apache2/mods-available/ssl.conf/IfModule/directive SSLProtocol) && \
+  augtool set $SSLProtocol/arg[1] all && \
+  augtool set $SSLProtocol/arg[2] ' -SSLv3' && \
+  augtool set $SSLProtocol/arg[3] ' -TLSv1' && \
+  augtool set $SSLProtocol/arg[4] ' -TLSv1.1' && \
+  export SSLCipherSuite=$(augtool match /files/etc/apache2/mods-available/ssl.conf/IfModule/directive SSLCipherSuite) && \
+  augtool set ${SSLCipherSuite}/arg[1] ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384
+
 # App Configuration
 RUN . /etc/apache2/envvars && chown -R ${APACHE_RUN_USER}:${APACHE_RUN_GROUP} /var/www/html/temp /var/www/html/logs
 COPY config.inc.php /var/www/html/config/config.inc.php
